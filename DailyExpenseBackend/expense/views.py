@@ -16,4 +16,16 @@ def SignUp(request):
         UserDetails.objects.create(FullName = fullname, Email = email, password = password)
         return JsonResponse({'message': 'User Registered Successfully'},status=201) 
 
+#Login API
+@csrf_exempt
+def Login(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        email = data.get('Email')
+        password = data.get('Password')
 
+        try:
+            user = UserDetails.objects.get(Email = email , password = password)
+            return JsonResponse({'message':'Login Successful', 'userId': user.id, 'userName': user.FullName},status = 200)
+        except:
+            return JsonResponse({'message':"Invalid Credentials"},status=400)
