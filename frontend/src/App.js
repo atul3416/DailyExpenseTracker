@@ -1,3 +1,4 @@
+import AddExpense from "./components/AddExpense";
 import Dashboard from "./components/Dashboard";
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
@@ -14,6 +15,7 @@ function App() {
         <Route path="/login" element={ <Login/> }></Route>
         <Route path="/" element={<Homepage/>}></Route>
         <Route path="/dashboard" element={<Dashboard/>}></Route>
+        <Route path="/add-expense" element={<AddExpense/>}></Route>
       </Routes>
      </BrowserRouter>
     </div>
