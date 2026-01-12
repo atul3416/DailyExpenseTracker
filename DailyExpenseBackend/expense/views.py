@@ -51,13 +51,24 @@ def AddExpense(request):
         
 
 def ManageExpense(request,user_id):
-    if request.method == 'GET':
-    
-
-        user = UserDetails.objects.get(id = user_id)
-
-    
+    if request.method == 'GET': 
         expenses = Expense.objects.filter(UserId  = user_id)
         expense_list = list(expenses.values())
         return JsonResponse(expense_list,safe=False)
        
+
+
+@csrf_exempt
+def UpdateExpense(request,expense_id):
+    if request.method == 'PUT':
+        data = json.loads(request.body)
+        try:
+            expense = Expense.objects.get(id = expense_id)
+            expense.ExpenseDate = data.get('ExpenseDate',expense.ExpenseDate)
+            expense.ExpenseCost = data.get('ExpenseCost',expense.ExpenseCost)
+            expense.ExpenseItem = data.get('ExpenseItem',expense.ExpenseItem)
+            expense.save()
+            return JsonResponse({'message':"Expense Updated successfully"},status=200)
+        except:
+            return JsonResponse({'message' : "Expense not found"},status=404)
+
