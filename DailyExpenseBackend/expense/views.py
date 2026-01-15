@@ -82,4 +82,14 @@ def DeleteExpense(request,expense_id):
         except:
             return JsonResponse({'message' : "Expense not found"},status=404)
 
-
+from django.db.models import Sum
+def SearchExpense(request,user_id):
+    if request.method == 'GET': 
+        from_date = request.GET.get('from')
+        to_date = request.GET.get('to')
+        expenses = Expense.objects.filter(UserId = user_id , ExpenseDate__range=[from_date,to_date])
+        expense_list = list(expenses.values())
+        agg  = expenses.aggregate(total_sum = Sum('ExpenseCost')) #{'ExpenseCost_sum': value}
+        total = agg['total_sum'] or 0
+        return JsonResponse({'expenses':expense_list,'total':total})
+       

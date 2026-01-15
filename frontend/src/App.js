@@ -1,5 +1,6 @@
 import AddExpense from "./components/AddExpense";
 import Dashboard from "./components/Dashboard";
+import ExpenseReport from "./components/ExpenseReport";
 import Homepage from "./components/Homepage";
 import Login from "./components/Login";
 import ManageExpense from "./components/ManageExpense";
@@ -18,6 +19,7 @@ function App() {
         <Route path="/dashboard" element={<Dashboard/>}></Route>
         <Route path="/add-expense" element={<AddExpense/>}></Route>
         <Route path="/manage-expense" element={<ManageExpense/>}></Route>
+        <Route path="/expense-report" element={<ExpenseReport/>}></Route>
       </Routes>
      </BrowserRouter>
     </div>
