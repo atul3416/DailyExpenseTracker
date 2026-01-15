@@ -35,17 +35,17 @@ const ManageExpense = () => {
     }
     const handleUpdate = async () => {
         try {
-            const response = await fetch(`http://127.0.0.1:8000/api/update_expense/${editExpense.id}/`,{
+            const response = await fetch(`http://127.0.0.1:8000/api/update_expense/${editExpense.id}/`, {
                 method: 'PUT',
-                headers: { 'Content-Type' : 'application/json' },
-                body:JSON.stringify(editExpense)
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(editExpense)
             });
-            if(response.status === 200){
+            if (response.status === 200) {
                 toast.success('Expense is updated');
                 setEditExpense(null);
                 fetchExpenses(userId);
             }
-            else{
+            else {
                 toast.error('Failed to update expense')
             }
         }
@@ -53,6 +53,28 @@ const ManageExpense = () => {
             console.error("Error updating expenses: ", error)
             toast.error("Something went wrong"
             )
+        }
+    }
+    const handleDelete = async (expenseId) => {
+        if (window.confirm('Are you sure, you want to delete expense?')) {
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/delete_expense/${expenseId}/`, {
+                    method: 'DELETE',
+                });
+                if (response.status === 200) {
+                    toast.success('Expense deleted successfully');
+                    fetchExpenses(userId);
+                }
+                else {
+                    toast.error('Failed to delete expense')
+                }
+            }
+            catch (error) {
+                console.error("Error deleting expenses: ", error)
+                toast.error("Something went wrong"
+                )
+            }
         }
     }
     return (
@@ -85,7 +107,7 @@ const ManageExpense = () => {
                                     <td>{exp.ExpenseCost}</td>
                                     <td>
                                         <button className='btn btn-sm btn-info me-2' onClick={() => handleEdit(exp)}><i className='fas fa-edit'></i> </button>
-                                        <button className='btn btn-sm btn-danger'><i className='fas fa-trash-alt'></i> </button>
+                                        <button className='btn btn-sm btn-danger' onClick={() => handleDelete(exp.id)}><i className='fas fa-trash-alt'></i> </button>
                                     </td>
                                 </tr>
                             ))
@@ -100,12 +122,12 @@ const ManageExpense = () => {
             </div>
             {/* modal */}
             {editExpense && (
-                <div className="modal show d-block ">
+                <div className="modal show d-block" style={{ background: 'rgba(0,0,0,0.75)' }}>
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header bg-primary text-white">
                                 <h5 className="modal-title"><i className="fas fa-pen  me-2"></i> Edit Expense</h5>
-                                <button type="button" className="btn-close" onClick={()=>setEditExpense(null)}></button>
+                                <button type="button" className="btn-close" onClick={() => setEditExpense(null)}></button>
                             </div>
                             <div className="modal-body">
                                 <div className='mb-3'>
@@ -137,7 +159,7 @@ const ManageExpense = () => {
                                 </div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={()=>setEditExpense(null)}>Close</button>
+                                <button type="button" className="btn btn-secondary" data-bs-dismiss="modal" onClick={() => setEditExpense(null)}>Close</button>
                                 <button type="button" className="btn btn-primary" onClick={handleUpdate}>Save changes</button>
                             </div>
                         </div>
