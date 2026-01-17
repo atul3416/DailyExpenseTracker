@@ -49,7 +49,7 @@ def AddExpense(request):
         except Exception as e:
             return JsonResponse({'message':"Something went wrong",'error': str(e)},status=400)
         
-
+#ManageExpense
 def ManageExpense(request,user_id):
     if request.method == 'GET': 
         expenses = Expense.objects.filter(UserId  = user_id)
@@ -57,7 +57,7 @@ def ManageExpense(request,user_id):
         return JsonResponse(expense_list,safe=False)
        
 
-
+#Update Expense
 @csrf_exempt
 def UpdateExpense(request,expense_id):
     if request.method == 'PUT':
@@ -72,6 +72,7 @@ def UpdateExpense(request,expense_id):
         except:
             return JsonResponse({'message' : "Expense not found"},status=404)
         
+#delete expense
 @csrf_exempt
 def DeleteExpense(request,expense_id):
     if request.method == 'DELETE':
@@ -82,6 +83,8 @@ def DeleteExpense(request,expense_id):
         except:
             return JsonResponse({'message' : "Expense not found"},status=404)
 
+
+#search expense
 from django.db.models import Sum
 def SearchExpense(request,user_id):
     if request.method == 'GET': 
@@ -93,3 +96,19 @@ def SearchExpense(request,user_id):
         total = agg['total_sum'] or 0
         return JsonResponse({'expenses':expense_list,'total':total})
        
+#change password
+@csrf_exempt
+def ChangePassword(request,user_id):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        oldpassword = data.get('oldPassword')
+        newpassword = data.get('newPassword')
+        try:
+            user = UserDetails.objects.get(id = user_id)
+            if user.password != oldpassword:
+                return JsonResponse({'message':'Old Password is incorrect'},status=400)
+            user.password = newpassword
+            user.save() 
+            return JsonResponse({'message':'Password Changed Successfully'},status=200)
+        except:
+            return JsonResponse({'message': 'User not found'},status=404)
