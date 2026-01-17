@@ -23,7 +23,7 @@ const AddExpense = () => {
         const handleSubmit = async(e) => {
             e.preventDefault();
             try{
-                const response = await fetch("http://127.0.0.1:8000/api/add_expense/",{
+                const response = await fetch("http://dailyexpense-django.onrender.com/api/add_expense/",{
                     method : 'POST',
                     headers : {'Content-Type' : 'application/json'},
                     body : JSON.stringify({...formData,UserId:userId})
