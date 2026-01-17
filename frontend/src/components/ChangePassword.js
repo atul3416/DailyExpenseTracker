@@ -28,7 +28,7 @@ const ChangePassword = () => {
             return;
         }
         try {
-            const response = await fetch(`http://dailyexpense-django.onrender.com/api/change_password/${userId}/`, {
+            const response = await fetch(`https://dailyexpensetrackerdjango.onrender.com/api/change_password/${userId}/`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({oldPassword : formData.oldPassword, newPassword: formData.newPassword})

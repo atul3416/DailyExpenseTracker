@@ -25,7 +25,7 @@ const ManageExpense = () => {
 
     const fetchExpenses = async (userId) => {
         try {
-            const response = await fetch(`http://dailyexpense-django.onrender.com/api/manage_expense/${userId}/`)
+            const response = await fetch(`https://dailyexpensetrackerdjango.onrender.com/api/manage_expense/${userId}/`)
             const data = await response.json();
             setExpenses(data);
         }
@@ -35,7 +35,7 @@ const ManageExpense = () => {
     }
     const handleUpdate = async () => {
         try {
-            const response = await fetch(`http://dailyexpense-django.onrender.com/api/update_expense/${editExpense.id}/`, {
+            const response = await fetch(`https://dailyexpensetrackerdjango.onrender.com/api/update_expense/${editExpense.id}/`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(editExpense)
@@ -59,7 +59,7 @@ const ManageExpense = () => {
         if (window.confirm('Are you sure, you want to delete expense?')) {
 
             try {
-                const response = await fetch(`http://dailyexpense-django.onrender.com/api/delete_expense/${expenseId}/`, {
+                const response = await fetch(`https://dailyexpensetrackerdjango.onrender.com/api/delete_expense/${expenseId}/`, {
                     method: 'DELETE',
                 });
                 if (response.status === 200) {

@@ -19,7 +19,7 @@ const Sign_up = () => {
     const handleSubmit = async(e) => {
         e.preventDefault();
         try{
-            const response = await fetch("http://dailyexpense-django.onrender.com/api/signup/",{
+            const response = await fetch("https://dailyexpensetrackerdjango.onrender.com/api/signup/",{
                 method : 'POST',
                 headers : {'Content-Type' : 'application/json'},
                 body : JSON.stringify(formData)
